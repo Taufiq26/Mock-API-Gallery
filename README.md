@@ -33,5 +33,5 @@ $ pip install Flask
 
 ## 4. Run the Flask
 ```
-$ flask --app app.py run
+$ flask --app app.py --debug run
 ```
