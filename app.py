@@ -209,7 +209,7 @@ def create_post():
 @app.route('/public/posts', methods=['GET'])
 def get_posts():
     page = request.args.get('page', 1, type=int)
-    per_page = 10  # Number of posts per page
+    per_page = 15  # Number of posts per page
 
     posts = Post.query.order_by(desc(Post.id)).paginate(page=page, per_page=per_page, error_out=False)
 
