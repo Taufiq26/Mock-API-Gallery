@@ -1,6 +1,13 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
+from public_api import db, Post, PostSchema, post_schema, posts_schema
+from sqlalchemy import desc
 
 app = Flask(__name__)
+
+# Add this near the top of the file, after creating the app
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/mock_api_gallery'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 
 mock_user_id = "0ef8a3f7-2779-4208-95e4-5a5488e5e3c4"
 mock_username = "demo_user"
@@ -59,9 +66,9 @@ gallery_images = [
         'image': 'https://gallery-api.baradeveloper.com/static/images/gundam-astray-red-frame.jpeg',
         'like': 1068,
         'comments': [
-            {'name': 'Gunpla Mania', 'comment': 'Nice bild'},
+            {'name': 'Gunpla Mania', 'comment': 'Nice build'},
             {'name': 'Newbie Builder', 'comment': 'Give me the link!'},
-            {'name': 'Anomim Pilot', 'comment': 'Tha\'s my Gundam'},
+            {'name': 'Anomim Pilot', 'comment': 'That\'s my Gundam'},
         ]
     },
     {
@@ -180,3 +187,37 @@ def gallery_detail(id):
       return image
 
   return {'message': 'Image Not Found!'}, 404
+
+
+# === Public API using database === #
+# POST /public/post endpoint
+@app.route('/public/post', methods=['POST'])
+def create_post():
+    title = request.json['title']
+    description = request.json['description']
+    image_link = request.json['image_link']
+    publisher = request.json['publisher']
+
+    new_post = Post(title=title, description=description, image_link=image_link, publisher=publisher)
+
+    db.session.add(new_post)
+    db.session.commit()
+
+    return post_schema.jsonify(new_post), 201
+
+# GET /public/posts endpoint with pagination
+@app.route('/public/posts', methods=['GET'])
+def get_posts():
+    page = request.args.get('page', 1, type=int)
+    per_page = 10  # Number of posts per page
+
+    posts = Post.query.order_by(desc(Post.id)).paginate(page=page, per_page=per_page, error_out=False)
+
+    result = posts_schema.dump(posts.items)
+    
+    return jsonify({
+        'posts': result,
+        'page': posts.page,
+        'total_pages': posts.pages,
+        'total_posts': posts.total
+    })

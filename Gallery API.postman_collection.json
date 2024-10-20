@@ -7,6 +7,62 @@
 	},
 	"item": [
 		{
+			"name": "Dynamic API",
+			"item": [
+				{
+					"name": "Posts with pagination",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/public/posts?page1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"public",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "page1",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Store Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Megane Girl\",\n    \"description\": \"A beautiful girl with glasses\",\n    \"image_link\": \"https://i.pinimg.com/736x/2a/c5/27/2ac527e3618bf933810446b30aa6638f.jpg\",\n    \"publisher\": \"Onion Anonim\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/public/post",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"public",
+								"post"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Test",
 			"request": {
 				"method": "GET",

@@ -26,9 +26,9 @@ Windows:
 > .venv\Scripts\activate
 ```
 
-## 3. Install Flask
+## 3. Install the libraries
 ```
-$ pip install Flask
+$ pip install -r requirements.txt
 ```
 
 ## 4. Run the Flask
