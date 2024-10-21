@@ -4,7 +4,7 @@ from public_api import db, Post, PostSchema, post_schema, posts_schema
 from sqlalchemy import desc
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost"])
+CORS(app, origins=["http://localhost:3000"])
 
 # Add this near the top of the file, after creating the app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/mock_api_gallery'
