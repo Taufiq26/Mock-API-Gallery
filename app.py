@@ -4,7 +4,7 @@ from public_api import db, Post, PostSchema, post_schema, posts_schema
 from sqlalchemy import desc
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000"])
+CORS(app, origins=["http://localhost"])
 
 # Add this near the top of the file, after creating the app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/mock_api_gallery'
@@ -195,7 +195,6 @@ def gallery_detail(id):
 # POST /public/post endpoint
 @app.route('/public/post', methods=['POST'])
 def create_post():
-    response.headers.add('Access-Control-Allow-Origin', '*')
     title = request.json['title']
     description = request.json['description']
     image_link = request.json['image_link']
